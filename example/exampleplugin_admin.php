@@ -43,5 +43,10 @@ if (!$user->isLoggedIn()) {
             </footer>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $(".plugins").collapse('show');
+        });
+    </script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 <?php
 
-class Example extends Plugin {
+class Example {
     public static function init() {
-        self::adminMenu("Example Plugin", array(
+        Plugin::adminMenu("Example Plugin", array(
             "link" => "exampleplugin_admin.php",
             "icon" => "fa-globe",
             "permission" => "admin"

@@ -3,7 +3,7 @@
     "author": "VANet",
     "author-gh": "va-net",
     "author-site": "https://vanet.app",
-    "class": "ExamplePlugin",
+    "class": "Example",
     "description": "Example Plugin. Best used as a template.",
     "tags": ["example", "template", "official", "demo"],
     "version": {

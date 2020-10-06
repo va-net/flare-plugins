@@ -14,7 +14,7 @@
     "compatability": [],
     "installation": {
         "files": [
-            "classes/ExamplePlugin.php",
+            "classes/Example.php",
             "exampleplugin_admin.php"
         ],
         "queries": []

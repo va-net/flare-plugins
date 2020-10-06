@@ -1,0 +1,29 @@
+{
+    "name": "Example",
+    "author": "VANet",
+    "author-gh": "va-net",
+    "author-site": "https://vanet.app",
+    "class": "ExamplePlugin",
+    "description": "Example Plugin. Best used as a template.",
+    "tags": ["example", "template", "official", "demo"],
+    "version": {
+        "tag": "1.0.0",
+        "name": "Initial Release",
+        "date": "2020-10-06"
+    },
+    "compatability": [
+        "v1.0.0-beta16"
+    ],
+    "scopes": [
+        "Add a Class",
+        "Add an Admin Page"
+    ],
+    "icon-url": "https://vanet.app/img/logo.png",
+    "installation": {
+        "files": [
+            "classes/ExamplePlugin.php",
+            "exampleplugin_admin.php"
+        ],
+        "queries": []
+    }
+}

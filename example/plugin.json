@@ -11,14 +11,7 @@
         "name": "Initial Release",
         "date": "2020-10-06"
     },
-    "compatability": [
-        "v1.0.0-beta16"
-    ],
-    "scopes": [
-        "Add a Class",
-        "Add an Admin Page"
-    ],
-    "icon-url": "https://vanet.app/img/logo.png",
+    "compatability": [],
     "installation": {
         "files": [
             "classes/ExamplePlugin.php",

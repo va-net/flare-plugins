@@ -3,7 +3,7 @@
 class Example {
     public static function init() {
         Plugin::adminMenu("Example Plugin", array(
-            "link" => "exampleplugin_admin.php",
+            "link" => "/admin/exampleplugin.php",
             "icon" => "fa-globe",
             "permission" => "admin"
         ));

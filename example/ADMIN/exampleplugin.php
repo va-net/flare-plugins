@@ -1,5 +1,5 @@
 <?php
-require_once './core/init.php';
+require_once '../core/init.php';
 
 $user = new User();
 
@@ -10,15 +10,17 @@ if (!$user->isLoggedIn()) {
 } elseif (!$user->hasPermission('admin')) {
     Redirect::to('home.php');
 }
+
+$ACTIVE_CATEGORY = 'plugins';
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include './includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 </head>
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg bg-custom">
-        <?php include './includes/navbar.php'; ?>
+        <?php include '../includes/navbar.php'; ?>
     </nav>
     <div class="container-fluid">
         <div class="container-fluid mt-4 text-center" style="overflow: auto;">
@@ -39,13 +41,13 @@ if (!$user->isLoggedIn()) {
                 </div>
             </div>
             <footer class="container-fluid text-center">
-                <?php include './includes/footer.php'; ?>
+                <?php include '../includes/footer.php'; ?>
             </footer>
         </div>
     </div>
     <script>
         $(document).ready(function() {
-            $(".plugins").collapse('show');
+            $(".<?= $ACTIVE_CATEGORY ?>").collapse('show');
         });
     </script>
 </body>

@@ -7,15 +7,15 @@
     "description": "Example Plugin. Best used as a template.",
     "tags": ["example", "template", "official", "demo"],
     "version": {
-        "tag": "1.0.0",
-        "name": "Initial Release",
-        "date": "2020-10-06"
+        "tag": "1.0.1",
+        "name": "Version 1.0.1",
+        "date": "2020-10-07"
     },
     "compatability": [],
     "installation": {
         "files": [
             "classes/Example.php",
-            "exampleplugin_admin.php"
+            "admin/exampleplugin.php"
         ],
         "queries": []
     }

@@ -1,0 +1,29 @@
+{
+    "name": "Activity",
+    "author": "Kai M",
+    "author-gh": "Velocity23",
+    "author-site": "https://kaimalcolm.com",
+    "class": "ActivityPlugin",
+    "description": "Plugin to Track Pilot Activity and LOA",
+    "tags": ["activity", "leave", "pilots"],
+    "version": {
+        "tag": "1.0.0",
+        "name": "Version 1.0.0",
+        "date": "2020-10-12"
+    },
+    "compatability": [],
+    "installation": {
+        "files": [
+            "classes/ActivityPlugin.php",
+            "admin/activity.php",
+            "admin/activity_settings.php",
+            "admin/loa.php",
+            "leave.php"
+        ],
+        "queries": [
+            "CREATE TABLE IF NOT EXISTS `leave` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=latin1;",
+            "INSERT INTO options (name, value) VALUES ('ACTIVE_DAYS', '30')",
+            "INSERT INTO options (name, value) VALUES ('NEW_DAYS', '14')"
+        ]
+    }
+}

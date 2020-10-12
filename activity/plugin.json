@@ -7,8 +7,8 @@
     "description": "Plugin to Track Pilot Activity and LOA",
     "tags": ["activity", "leave", "pilots"],
     "version": {
-        "tag": "1.0.0",
-        "name": "Version 1.0.0",
+        "tag": "1.0.1",
+        "name": "Version 1.0.1",
         "date": "2020-10-12"
     },
     "compatability": [],
@@ -22,8 +22,8 @@
         ],
         "queries": [
             "CREATE TABLE IF NOT EXISTS `leave_absence` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=latin1;",
-            "INSERT INTO options (name, value) VALUES ('ACTIVE_DAYS', '30')",
-            "INSERT INTO options (name, value) VALUES ('NEW_DAYS', '14')"
+            "INSERT INTO options (name, value) SELECT * FROM (SELECT 'ACTIVE_DAYS', '30') AS tmp WHERE NOT EXISTS (SELECT name FROM options WHERE name = 'ACTIVE_DAYS') LIMIT 1;",
+            "INSERT INTO options (name, value) SELECT * FROM (SELECT 'NEW_DAYS', '14') AS tmp WHERE NOT EXISTS (SELECT name FROM options WHERE name = 'NEW_DAYS') LIMIT 1;"
         ]
     }
 }

@@ -99,7 +99,7 @@ $ACTIVE_CATEGORY = 'user-management';
                                             echo $p->reason;
                                             echo '</td><td class="align-middle">';
                                             echo '<button class="btn btn-success" type="submit" form="acceptReq" name="id" value="'.$p->id.'"><i class="fa fa-check"></i></button>';
-                                            echo '&nbsp;<button class="btn btn-danger" type="submit" form="acceptReq" name="id" value="'.$p->id.'"><i class="fa fa-times"></i></button>';
+                                            echo '&nbsp;<button class="btn btn-danger" type="submit" form="denyReq" name="id" value="'.$p->id.'"><i class="fa fa-times"></i></button>';
                                             echo '</td></tr>';
                                         }
                                     ?>

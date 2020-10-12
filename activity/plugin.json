@@ -21,7 +21,7 @@
             "leave.php"
         ],
         "queries": [
-            "CREATE TABLE IF NOT EXISTS `leave` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=latin1;",
+            "CREATE TABLE IF NOT EXISTS `leave_absence` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=latin1;",
             "INSERT INTO options (name, value) VALUES ('ACTIVE_DAYS', '30')",
             "INSERT INTO options (name, value) VALUES ('NEW_DAYS', '14')"
         ]

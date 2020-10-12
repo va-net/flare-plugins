@@ -52,7 +52,7 @@ class ActivityPlugin {
         $activePeriod = self::$_activePeriod;
 
         $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
-                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absense WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
+                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -69,7 +69,7 @@ class ActivityPlugin {
 
         $sql = "SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
                 AND status=1 AND DATEDIFF(NOW(), joined) > {$newPeriod} AND NOT id IN 
-                (SELECT pilotid FROM leave_absense WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
+                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -86,7 +86,7 @@ class ActivityPlugin {
 
         $sql = "SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
                 AND status=1 AND DATEDIFF(NOW(), joined) <= {$newPeriod} AND NOT id IN 
-                (SELECT pilotid FROM leave_absense WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
+                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -112,7 +112,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM leave_absense WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
+        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -137,7 +137,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $ret = self::$_db->insert('leave_absense', $fields);
+        $ret = self::$_db->insert('leave_absence', $fields);
 
         return !($ret->error());
     }
@@ -150,7 +150,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $res = self::$_db->get('leave_absense', array('pilotid', '=', $user));
+        $res = self::$_db->get('leave_absence', array('pilotid', '=', $user));
 
         return $res->results();
     }
@@ -162,7 +162,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absense l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.status=0");
+        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.status=0");
 
         return $res->results();
     }
@@ -174,7 +174,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absense l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.todate > NOW() AND l.status=1");
+        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.todate > NOW() AND l.status=1");
 
         return $res->results();
     }
@@ -187,7 +187,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $ret = self::$_db->update('leave_absense', $id, 'id', [
+        $ret = self::$_db->update('leave_absence', $id, 'id', [
             'status' => 1
         ]);
 
@@ -202,7 +202,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $ret = self::$_db->update('leave_absense', $id, 'id', [
+        $ret = self::$_db->update('leave_absence', $id, 'id', [
             'status' => 2
         ]);
 

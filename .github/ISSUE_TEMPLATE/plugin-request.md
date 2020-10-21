@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Plugin Request
 about: Suggest a Plugin
 title: ''
 labels: request

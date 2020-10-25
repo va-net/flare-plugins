@@ -1,3 +1,3 @@
-name	slug	author	version	update-date	tags
-Example	example	VANet	1.0.1	2020-10-06	example,template,offical,demo
-Activity	activity	Kai M	1.0.1	2020-10-12	activity,leave,pilots
+name	slug	author	version	update-date	tags	description
+Example	example	VANet	1.0.1	2020-10-06	example,template,offical,demo	Example Plugin. Best used as a template.
+Activity	activity	Kai M	1.0.1	2020-10-12	activity,leave,pilots	Plugin to Track Pilot Activity and LOA

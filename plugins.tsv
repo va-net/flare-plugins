@@ -3,3 +3,4 @@ Example	example	VANet	1.0.1	2020-10-06	example,template,offical,demo	Example Plu
 Activity	activity	Kai M	1.0.1	2020-10-12	activity,leave,pilots	Plugin to Track Pilot Activity and LOA
 Menu Items	menu-items	Kai M	1.0.0	2020-10-25	menu,custom,items	Plugin to add Custom Menu Items to your Crew Center
 Notifications	notifications	VANet	1.0.0	2020-10-26	slack,discord,notifications,official	Plugin to add Slack or Discord Notifications
+Pilot Hubs	hubs	Kai M	1.0.0	2020-10-26	hubs,pireps,pilots	Plugin to add Hubs and Hub Captains

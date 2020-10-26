@@ -1,0 +1,27 @@
+{
+    "name": "Pilot Hubs",
+    "author": "Kai M",
+    "author-gh": "Velocity23",
+    "author-site": "https://vanet.app",
+    "class": "HubsPlugin",
+    "description": "Plugin to add Hubs and Hub Captains",
+    "tags": ["hubs", "pireps", "pilots"],
+    "version": {
+        "tag": "1.0.0",
+        "name": "Version 1.0.0",
+        "date": "2020-10-26"
+    },
+    "compatability": [],
+    "installation": {
+        "files": [
+            "classes/HubsPlugin.php",
+            "admin/hubs_plugin.php",
+            "hub.php"
+        ],
+        "queries": [
+            "CREATE TABLE `pilot_hubs` ( `id` INT NOT NULL AUTO_INCREMENT , `pilotId` INT NOT NULL , `hub` VARCHAR(4) NOT NULL , `isCaptain` BOOLEAN NOT NULL DEFAULT FALSE , PRIMARY KEY (`id`));",
+            "CREATE TABLE `hub_changes` ( `id` INT NOT NULL AUTO_INCREMENT , `pilotId` INT NOT NULL , `before` VARCHAR(4) NOT NULL , `after` VARCHAR(4) NOT NULL , `status` INT NOT NULL DEFAULT '0' , PRIMARY KEY (`id`));",
+            "INSERT INTO `options` (`name`, `value`) VALUES ('DEFAULT_HUB', '');"
+        ]
+    }
+}

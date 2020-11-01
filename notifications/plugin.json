@@ -11,7 +11,7 @@
         "name": "Version 1.0.0",
         "date": "2020-10-26"
     },
-    "compatability": [],
+    "compatability": ["v1.0.0"],
     "installation": {
         "files": [
             "classes/NotifyPlugin.php",

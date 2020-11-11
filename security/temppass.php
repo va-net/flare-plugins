@@ -86,7 +86,7 @@ $GLOBALS['top-menu'] = array(
                             $user->update([
                                 'password' => Hash::make(Input::get('newpass')),
                             ]);
-                            SecurityPlugin::revokeTemp(SecurityPlugin::tempForUser($user->data()->id)->id);
+                            SecurityPlugin::revokeTemp(SecurityPlugin::tempForUser($user->data()->id)->id, false);
                             Session::flash('success', 'Password Set!');
                             echo '<script>window.location.href="/home.php";</script>';
                             die();

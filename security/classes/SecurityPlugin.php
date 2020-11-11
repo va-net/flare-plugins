@@ -110,16 +110,19 @@ class SecurityPlugin {
     /**
      * @return null
      * @param int $id Temp ID
+     * @param bool $resetpw Whether to Reset the User's Password
      */
-    public static function revokeTemp($id)
+    public static function revokeTemp($id, $resetpw = true)
     {
         self::setup();
 
         self::$_db->delete('temppass', ['id', '=', $id]);
         // Lock User out of their Account
-        self::$_db->update('pilots', $id, 'id', [
-            'password' => uniqid('locked-', true)
-        ]);
+        if ($resetpw) {
+            self::$_db->update('pilots', $id, 'id', [
+                'password' => uniqid('locked-', true)
+            ]);
+        }
     }
 
     /**

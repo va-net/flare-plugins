@@ -1,5 +1,6 @@
 <?php
-class ActivityPlugin {
+class ActivityPlugin
+{
 
     /**
      * @var DB
@@ -7,40 +8,63 @@ class ActivityPlugin {
     private static $_db = null;
     private static $_activePeriod = null;
     private static $_newPeriod = null;
-    
+
+    public static $statuses = [
+        [
+            'label' => 'Pending',
+            'badge' => 'warning'
+        ],
+        [
+            'label' => 'Accepted',
+            'badge' => 'success'
+        ],
+        [
+            'label' => 'Denied',
+            'badge' => 'danger'
+        ]
+    ];
+
     private static function setup()
     {
         if (!isset(self::$_db)) self::$_db = DB::getInstance();
         if (!isset(self::$_activePeriod)) self::$_activePeriod = Config::get('ACTIVE_DAYS');
         if (!isset(self::$_newPeriod)) self::$_newPeriod = Config::get('NEW_DAYS');
     }
-    
+
     /**
      * @return null
      */
     public static function init()
     {
-        $GLOBALS['admin-menu']['User Management']['Activity'] = [
-            "link" => "/admin/activity.php",
-            "icon" => "fa-clock",
-            "permission" => "usermanage",
-            "needsGold" => false
-        ];
-        $GLOBALS['admin-menu']['User Management']['LOA Admin'] = [
-            "link" => "/admin/loa.php",
-            "icon" => "fa-briefcase",
-            "permission" => "usermanage",
-            "needsGold" => false
-        ];
+        // Register Menu Items
+        Plugin::adminMenu('Activity', [
+            'link' => '/admin/activity',
+            'icon' => 'fa-clock',
+            'permission' => 'usermanage',
+        ], 'User Management');
+        Plugin::adminMenu('LOA Admin', [
+            'link' => '/admin/leave',
+            'icon' => 'fa-briefcase',
+            'permission' => 'usermanage',
+        ], 'User Management');
         Plugin::adminMenu('Activity Settings', [
-            "link" => "/admin/activity_settings.php",
-            "icon" => "fa-users-cog",
-            "permission" => "usermanage",
+            'link' => '/admin/settings/activity',
+            'icon' => 'fa-users-cog',
+            'permission' => 'usermanage',
         ]);
         Plugin::pilotMenu('Leave of Absence', [
-            "link" => "/leave.php",
-            "icon" => "fa-laptop-house",
+            'link' => '/leave',
+            'icon' => 'fa-laptop-house',
         ]);
+
+        Router::add('/admin/activity', [new ActivityPluginController, 'get_admin']);
+        Router::add('/admin/activity', [new ActivityPluginController, 'post_admin'], 'post');
+        Router::add('/admin/leave', [new ActivityPluginController, 'get_leave_admin']);
+        Router::add('/admin/leave', [new ActivityPluginController, 'post_leave_admin'], 'post');
+        Router::add('/admin/settings/activity', [new ActivityPluginController, 'get_settings']);
+        Router::add('/admin/settings/activity', [new ActivityPluginController, 'post_settings'], 'post');
+        Router::add('/leave', [new ActivityPluginController, 'get_leave']);
+        Router::add('/leave', [new ActivityPluginController, 'post_leave'], 'post');
     }
 
     /**
@@ -51,8 +75,8 @@ class ActivityPlugin {
         self::setup();
         $activePeriod = self::$_activePeriod;
 
-        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
-                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
+        $sql = 'SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
+                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())';
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -67,10 +91,10 @@ class ActivityPlugin {
         $activePeriod = self::$_activePeriod;
         $newPeriod = self::$_newPeriod;
 
-        $sql = "SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
-                AND status=1 AND DATEDIFF(NOW(), joined) > {$newPeriod} AND NOT id IN 
-                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
-        $data = self::$_db->query($sql);
+        $sql = 'SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= ? AND status=1) 
+                AND status=1 AND DATEDIFF(NOW(), joined) > ? AND NOT id IN 
+                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())';
+        $data = self::$_db->query($sql, [$activePeriod, $newPeriod]);
 
         return $data->results();
     }
@@ -84,9 +108,9 @@ class ActivityPlugin {
         $activePeriod = self::$_activePeriod;
         $newPeriod = self::$_newPeriod;
 
-        $sql = "SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
+        $sql = 'SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
                 AND status=1 AND DATEDIFF(NOW(), joined) <= {$newPeriod} AND NOT id IN 
-                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
+                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())';
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -99,7 +123,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps) AND status=2";
+        $sql = 'SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps) AND status=2';
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -112,7 +136,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())";
+        $sql = 'SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate <= NOW() AND todate >= NOW())';
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -162,7 +186,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.status=0");
+        $res = self::$_db->query('SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.status=0');
 
         return $res->results();
     }
@@ -174,7 +198,7 @@ class ActivityPlugin {
     {
         self::setup();
 
-        $res = self::$_db->query("SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.todate > NOW() AND l.status=1");
+        $res = self::$_db->query('SELECT l.*, p.name AS pilot FROM leave_absence l INNER JOIN pilots p ON l.pilotid=p.id WHERE l.todate > NOW() AND l.status=1');
 
         return $res->results();
     }
@@ -208,5 +232,4 @@ class ActivityPlugin {
 
         return !($ret->error());
     }
-
 }

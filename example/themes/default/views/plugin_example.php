@@ -1,5 +1,5 @@
 <?php
-Page::setTitle('Example Plugin Admin - ' . Config::get('va/name'));
+Page::setTitle('Example Plugin Admin - ' . Page::$pageData->va_name);
 $ACTIVE_CATEGORY = 'plugins';
 ?>
 <!DOCTYPE html>

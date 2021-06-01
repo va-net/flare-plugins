@@ -4,19 +4,20 @@
     "author-gh": "va-net",
     "author-site": "https://vanet.app",
     "class": "SecurityPlugin",
-    "description": "Plugin to enhance Flare's Security",
-    "tags": ["security", "secure", "passwords", "official"],
+    "description": "Plugin to reset users' passwords",
+    "tags": ["security", "passwords", "official"],
     "version": {
-        "tag": "1.0.0",
-        "name": "Version 1.0.0",
-        "date": "2020-10-31"
+        "tag": "2.0.0",
+        "name": "Version 2.0.0",
+        "date": "2021-06-01"
     },
     "compatability": [],
     "installation": {
         "files": [
-            "classes/SecurityPlugin.php",
-            "admin/security_plugin.php",
-            "temppass.php"
+            "classes/controllers/SecurityPluginController.php",
+            "classes/plugins/SecurityPlugin.php",
+            "themes/default/views/plugin_security.php",
+            "themes/default/views/admin/plugin_security.php"
         ],
         "queries": [
             "CREATE TABLE `temppass` ( `id` INT NOT NULL AUTO_INCREMENT , `pilotId` INT NOT NULL , `dateIssued` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`));",

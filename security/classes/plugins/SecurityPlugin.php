@@ -1,6 +1,7 @@
 <?php
 
-class SecurityPlugin {
+class SecurityPlugin
+{
 
     /**
      * @var DB
@@ -11,11 +12,6 @@ class SecurityPlugin {
      * @var array
      */
     private static $_listeners = [];
-
-    /**
-     * @var array
-     */
-    public static $weakpasswords;
 
     private static function setup()
     {
@@ -28,11 +24,11 @@ class SecurityPlugin {
     private static function deleteOld()
     {
         self::setup();
-        
+
         $sql = "DELETE FROM temppass WHERE DATEDIFF(NOW(), dateIssued) > ?";
         self::$_db->query($sql, [Config::get('TEMPPASS_EXPIRY')]);
     }
-    
+
     /**
      * @return null
      */
@@ -40,29 +36,16 @@ class SecurityPlugin {
     {
         Plugin::adminMenu('Security', [
             "icon" => "fa-shield-alt",
-            "link" => "/admin/security_plugin.php",
-            "permission" => "staffmanage",
+            "link" => "/admin/security",
+            "permission" => "usermanage",
         ]);
 
-        self::$weakpasswords = [
-            "password" => 5, 
-            "passw0rd" => 3, 
-            "12345678" => 5, 
-            "qwertyuio" => 2,
-            str_replace(' ', '', strtolower(Config::get('va/name'))) => 3, 
-            "flare" => 1,
-            "vanet" => 1,
-            "123456789" => 2,
-            "1234567890" => 2,
-            "infiniteflight" => 2,
-            "virtualairline" => 3,
-            "asdfghjk" => 2,
-            "password!" => 4,
-            "passw0rd!" => 3,
-            "iamthebest" => 4
-        ];
+        Router::add('/admin/security', [new SecurityPluginController, 'get_admin']);
+        Router::add('/admin/security', [new SecurityPluginController, 'post_admin'], 'post');
+        Router::add('/set-password', [new SecurityPluginController, 'get']);
+        Router::add('/set-password', [new SecurityPluginController, 'post'], 'post');
 
-        if (date("i") % 30 == 0 || file_exists(__DIR__.'/../.development')) {
+        if (date("i") % 30 == 0 || file_exists(__DIR__ . '/../.development')) {
             self::deleteOld();
         }
 
@@ -82,7 +65,7 @@ class SecurityPlugin {
         $ins = self::$_db->insert('temppass', [
             "pilotId" => $user
         ]);
-        
+
         $upd = self::$_db->update('pilots', $user, 'id', [
             'password' => Hash::make($pass)
         ]);
@@ -92,19 +75,6 @@ class SecurityPlugin {
         }
 
         return !$ins->error() && !$upd->error();
-    }
-
-    /**
-     * @return array
-     */
-    public static function activeTemps()
-    {
-        self::setup();
-        self::deleteOld();
-
-        $data = self::$_db->getAll('temppass');
-
-        return $data->results();
     }
 
     /**
@@ -147,62 +117,8 @@ class SecurityPlugin {
     {
         $usr = $ev->params;
         if (self::tempForUser($usr['id']) != null) {
-            Redirect::to('/temppass.php');
+            Redirect::to('/set-password');
         }
-    }
-
-    /**
-     * @return array
-     */
-    public static function checkUsers()
-    {
-        self::setup();
-
-        $users = self::$_db->get('pilots', ['status', '=', 1])->results();
-        $users = array_map(function($u) {
-            $u->vulnerable = 0;
-            foreach (self::$weakpasswords as $pass => $threat) {
-                if (Hash::check($pass, $u->password)) {
-                    $u->vulnerable = $threat;
-                }
-            }
-
-            $ret = new stdClass();
-            $ret->name = $u->name;
-            $ret->id = $u->id;
-            $ret->threat = $u->vulnerable;
-            return $ret;
-        }, $users);
-
-        return $users;
-    }
-
-    /**
-     * @return array
-     * @param string $string String to Check
-     * @param bool $super Whether to run extra checks
-     */
-    public static function getThreat($string, $super = false)
-    {
-        foreach (self::$weakpasswords as $pass => $threat) {
-            if (Hash::check($pass, $string)) {
-                return [$threat, "Common Password"];
-            }
-        }
-
-        if (preg_match("/[0-9]/", $string) != 1) {
-            return [5, "No Number"];
-        } elseif (preg_match("/[A-Z]/", $string) != 1) {
-            return [4, "No Upper-Case Letter"];            
-        } elseif ($super && preg_match("/\S/", $string) != 1) {
-            return [3, "No Special Character"];
-        } elseif (strlen($string) < 10 && $super) {
-            return [3, "Less than 10 Characters Long"];
-        } elseif (strlen($string) < 8 && !$super) {
-            return [4, "Less than 8 Characters Long"];
-        }
-
-        return [0, "Low Threat"];
     }
 
     /**
@@ -217,7 +133,6 @@ class SecurityPlugin {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        return implode($pass); 
+        return implode($pass);
     }
-
 }

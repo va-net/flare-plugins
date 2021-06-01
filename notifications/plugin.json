@@ -1,21 +1,21 @@
 {
-    "name": "Slack/Discord Notifications",
+    "name": "Slack/Discord Messages",
     "author": "VANet",
     "author-gh": "va-net",
     "author-site": "https://vanet.app",
     "class": "NotifyPlugin",
-    "description": "Plugin to add Slack or Discord Notifications",
+    "description": "Send Slack or Discord Messages when things happen",
     "tags": ["slack", "discord", "notifications", "official"],
     "version": {
-        "tag": "1.0.0",
-        "name": "Version 1.0.0",
-        "date": "2020-10-26"
+        "tag": "2.0.0",
+        "name": "Version 2.0.0",
+        "date": "2021-06-01"
     },
-    "compatability": ["v1.0.0"],
     "installation": {
         "files": [
-            "classes/NotifyPlugin.php",
-            "admin/notify_plugin.php"
+            "classes/controllers/NotifyPluginController.php",
+            "classes/plugins/NotifyPlugin.php",
+            "themes/default/views/admin/notify_plugin.php"
         ],
         "queries": [
             "INSERT INTO `options` (`name`, `value`) VALUES ('DISCORD_WEBHOOK', ''), ('DISCORD_WEBHOOK_PRIVATE', ''), ('SLACK_WEBHOOK', ''), ('SLACK_WEBHOOK_PRIVATE', '');"

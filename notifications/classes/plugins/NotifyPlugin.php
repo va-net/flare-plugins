@@ -1,24 +1,22 @@
 <?php
-/*
-Flare, a fully featured and easy to use crew centre, designed for Infinite Flight.
-Copyright (C) 2020  Lucas Rebato
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
-
-class NotifyPlugin {
+class NotifyPlugin
+{
 
     private static $_listeners = [];
 
     public static function init()
     {
         // Add to Menu
-        Plugin::adminMenu('Notifications', [
-            "link" => "/admin/notify_plugin.php",
+        Plugin::adminMenu('Messages', [
+            "link" => "/admin/messages",
             "icon" => "fa-comments",
             "permission" => "admin",
         ]);
+
+        // Register Routes
+        Router::add('/admin/messages', [new NotifyPluginController, 'get']);
+        Router::add('/admin/messages', [new NotifyPluginController, 'post'], 'post');
 
         // Event Subscriptions
         self::$_listeners['pirep/filed'] = Events::listen('pirep/filed', 'NotifyPlugin::pirepFiled');
@@ -31,12 +29,12 @@ class NotifyPlugin {
      * @return null
      * @param Event $event
      */
-    public static function pirepFiled($event) 
+    public static function pirepFiled($event)
     {
         $params = $event->params;
         $msg = "**New PIREP Filed**\r\n";
         $msg .= "> Route: {$params['departure']}-{$params['arrival']}\r\n";
-        $msg .= "> Flight Time: ".Time::secsToString($params['flighttime'])."\r\n";
+        $msg .= "> Flight Time: " . Time::secsToString($params['flighttime']) . "\r\n";
         $msg .= "> Flight Number: {$params['flightnum']}";
         self::postMsg($msg);
     }
@@ -83,14 +81,14 @@ class NotifyPlugin {
     private static function postMsg($message, $isPrivate = false)
     {
         // Configure Webhook URL & Payload
-        $url; 
+        $url = '';
         $payload = [
             "text" => $message
         ];
         if (!empty(Config::get('DISCORD_WEBHOOK'))) {
-            $url = trim(Config::get('DISCORD_WEBHOOK'), '/').'/slack';
+            $url = trim(Config::get('DISCORD_WEBHOOK'), '/') . '/slack';
             if ($isPrivate) {
-                $url = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/').'/slack';
+                $url = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/') . '/slack';
             }
         } elseif (!empty(Config::get('SLACK_WEBHOOK'))) {
             $url = Config::get('SLACK_WEBHOOK');
@@ -110,7 +108,7 @@ class NotifyPlugin {
             )
         );
         $context = stream_context_create($options);
-        $res = file_get_contents($url, false, $context);
+        file_get_contents($url, false, $context);
     }
 
     /**
@@ -120,8 +118,8 @@ class NotifyPlugin {
     {
         $ret = [];
         if (!empty(Config::get('DISCORD_WEBHOOK'))) {
-            $pub = trim(Config::get('DISCORD_WEBHOOK'), '/').'/slack';
-            $prv = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/').'/slack';
+            $pub = trim(Config::get('DISCORD_WEBHOOK'), '/') . '/slack';
+            $prv = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/') . '/slack';
             $ret = ['Discord', $pub, $prv];
         } elseif (!empty(Config::get('SLACK_WEBHOOK'))) {
             $pub = Config::get('SLACK_WEBHOOK');
@@ -132,5 +130,4 @@ class NotifyPlugin {
         }
         return $ret;
     }
-    
 }

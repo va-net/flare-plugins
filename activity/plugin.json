@@ -21,7 +21,7 @@
             "themes/default/views/admin/plugin_activity.php"
         ],
         "queries": [
-            "CREATE TABLE IF NOT EXISTS `leave_absence` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=latin1;",
+            "CREATE TABLE IF NOT EXISTS `leave_absence` (`id` int(11) NOT NULL AUTO_INCREMENT, `pilotid` int(11) NOT NULL, `fromdate` date NOT NULL, `todate` date NOT NULL, `reason` text NOT NULL, `status` int(11) DEFAULT 0, PRIMARY KEY (`id`));",
             "INSERT INTO options (name, value) SELECT * FROM (SELECT 'ACTIVE_DAYS', '30') AS tmp WHERE NOT EXISTS (SELECT name FROM options WHERE name = 'ACTIVE_DAYS') LIMIT 1;",
             "INSERT INTO options (name, value) SELECT * FROM (SELECT 'NEW_DAYS', '14') AS tmp WHERE NOT EXISTS (SELECT name FROM options WHERE name = 'NEW_DAYS') LIMIT 1;"
         ]

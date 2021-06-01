@@ -1,12 +1,13 @@
 <?php
 
-class HubsPlugin {
+class HubsPlugin
+{
 
     /**
      * @var DB
      */
     private static $_db;
-    
+
     /**
      * @var array
      */
@@ -23,16 +24,20 @@ class HubsPlugin {
     public static function init()
     {
         Plugin::adminMenu('Hubs Admin', [
-            "link" => "/admin/hubs_plugin.php",
+            "link" => "/admin/hubs",
             "icon" => "fa-globe-americas",
             "permission" => "opsmanage",
         ]);
-        Plugin::pilotMenu('Hub', [
-            "link" => "/hub.php",
+        Plugin::pilotMenu('My Hub', [
+            "link" => "/hub",
             "icon" => "fa-map-signs"
         ]);
 
         self::$_listeners['user/created'] = Events::listen('user/created', 'HubsPlugin::setupPilot');
+        Router::add('/hub', [new HubsPluginController, 'get']);
+        Router::add('/hub', [new HubsPluginController, 'post'], 'post');
+        Router::add('/admin/hubs', [new HubsPluginController, 'get_admin']);
+        Router::add('/admin/hubs', [new HubsPluginController, 'post_admin'], 'post');
     }
 
     /**
@@ -64,7 +69,7 @@ class HubsPlugin {
         self::setup();
 
         $captain = $captain ? 1 : 0;
-        
+
         self::$_db->delete('pilot_hubs', ['pilotId', '=', $pilot]);
         $ret = self::$_db->insert('pilot_hubs', [
             'pilotId' => $pilot,
@@ -204,5 +209,4 @@ class HubsPlugin {
 
         return !($res->error());
     }
-
 }

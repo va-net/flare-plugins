@@ -87,8 +87,7 @@ $ACTIVE_CATEGORY = 'plugins';
                             </thead>
                             <tbody>
                                 <?php
-                                $activeItems = MenuPlugin::getItems();
-                                foreach ($activeItems as $a) {
+                                foreach (Page::$pageData->active_items as $a) {
                                     echo '<tr><td class="align-middle">';
                                     echo MenuPlugin::$itemTypes[$a->type];
                                     echo '</td><td class="align-middle"><a href="' . $a->link . '" target="_blank">';

@@ -1,21 +1,21 @@
 {
     "name": "Custom Menu Items",
-    "author": "Kai M",
-    "author-gh": "Velocity23",
-    "author-site": "https://kaimalcolm.com",
+    "author": "VANet",
+    "author-gh": "va-net",
+    "author-site": "https://vanet.app",
     "class": "MenuPlugin",
     "description": "Plugin to add Custom Menu Items to your Crew Center",
     "tags": ["menu", "custom", "items"],
     "version": {
-        "tag": "1.0.0",
-        "name": "Version 1.0.0",
-        "date": "2020-10-25"
+        "tag": "2.0.0",
+        "name": "Version 2.0.0",
+        "date": "2021-06-01"
     },
-    "compatability": ["v1.0.0"],
     "installation": {
         "files": [
-            "classes/MenuPlugin.php",
-            "admin/menu_plugin.php"
+            "classes/controllers/MenuPluginController.php",
+            "classes/plugins/MenuPlugin.php",
+            "themes/default/views/admin/menu_plugin.php"
         ],
         "queries": [
             "CREATE TABLE `menu_items` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(15) NOT NULL , `label` TEXT NOT NULL , `link` TEXT NOT NULL , `icon` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`));"

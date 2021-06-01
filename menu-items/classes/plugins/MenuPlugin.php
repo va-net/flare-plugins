@@ -1,11 +1,18 @@
 <?php
 
-class MenuPlugin {
+class MenuPlugin
+{
 
     /**
      * @var DB
      */
     private static $_db = null;
+
+    public static $itemTypes = [
+        "pilot" => "Pilot Menu",
+        "top.pilots" => "Top Menu (Pilots)",
+        "top.public" => "Top Menu (Public)",
+    ];
 
     private static function setup()
     {
@@ -16,10 +23,13 @@ class MenuPlugin {
     {
         self::setup();
         Plugin::adminMenu('Custom Menu Items', [
-            "link" => "/admin/menu_plugin.php",
+            "link" => "/admin/menus",
             "icon" => "fa-list",
             "permission" => "admin",
         ]);
+        Router::add('/admin/menus', [new MenuPluginController, 'get']);
+        Router::add('/admin/menus', [new MenuPluginController, 'post'], 'post');
+
         $items = self::getItems();
         foreach ($items as $i) {
             if ($i->type == 'pilot') {
@@ -92,5 +102,4 @@ class MenuPlugin {
         $ret = self::$_db->getAll('menu_items');
         return $ret->results();
     }
-
 }

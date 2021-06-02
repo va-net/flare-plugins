@@ -4,4 +4,4 @@ Activity	activity	Kai M	2.0.0	2021-06-01	activity,leave,pilots	Plugin to Track P
 Menu Items	menu-items	Kai M	2.0.0	2021-06-01	menu,custom,items	Plugin to add Custom Menu Items to your Crew Center
 Notifications	notifications	VANet	2.0.0	2021-06-01	slack,discord,notifications,official	Plugin to send Slack or Discord Notifications when things happen
 Pilot Hubs	hubs	Kai M	2.0.0	2021-06-01	hubs,pireps,pilots	Plugin to add Hubs and Hub Captains
-Security	security	VANet	2.0.0	2021-06-01	security,passwords,official Plugin to reset users' passwords
+Security	security	VANet	2.0.0	2021-06-01	security,passwords,official	Plugin to reset users' passwords

@@ -16,6 +16,7 @@
             "classes/controllers/ActivityPluginController.php",
             "classes/plugins/ActivityPlugin.php",
             "themes/default/views/plugin_activity_loa.php",
+            "themes/tailwind/views/plugin_activity_loa.php",
             "themes/default/views/admin/plugin_activity_leave.php",
             "themes/default/views/admin/plugin_activity_settings.php",
             "themes/default/views/admin/plugin_activity.php"

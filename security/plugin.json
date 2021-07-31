@@ -17,6 +17,7 @@
             "classes/controllers/SecurityPluginController.php",
             "classes/plugins/SecurityPlugin.php",
             "themes/default/views/plugin_security.php",
+            "themes/tailwind/views/plugin_security.php",
             "themes/default/views/admin/plugin_security.php"
         ],
         "queries": [

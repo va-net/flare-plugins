@@ -23,6 +23,20 @@ class ActivityPlugin
             'badge' => 'danger'
         ]
     ];
+    public static $tailwind_statuses = [
+        [
+            'label' => 'Pending',
+            'badge' => 'bg-yellow-200 text-yellow-800',
+        ],
+        [
+            'label' => 'Accepted',
+            'badge' => 'bg-green-100 text-green-800 dark:bg-green-300 dark:text-green-900',
+        ],
+        [
+            'label' => 'Denied',
+            'badge' => 'bg-red-200 text-red-900',
+        ]
+    ];
 
     private static function setup()
     {

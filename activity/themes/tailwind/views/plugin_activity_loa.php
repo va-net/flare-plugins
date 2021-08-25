@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div id="content" class="m-5 text-black dark:text-white">
     <h1 class="text-3xl font-bold">Leave of Absence</h1>
     <p class="mb-3">Here, you can see previous LOAs, apply for LOA and view the status of your requests.</p>
-    <section id="request-loa" class="mb-4">
+    <section id="request-loa" class="mb-3">
         <h2 class="mb-2 text-2xl font-bold">Request LOA</h2>
         <form method="post" class="space-y-2" id="request-loa-form">
             <div class="space-y-1">

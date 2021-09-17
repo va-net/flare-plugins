@@ -5,6 +5,16 @@ class NotifyPlugin
 
     private static $_listeners = [];
 
+    private static $_handlers = [
+        'pirep/filed' => 'NotifyPlugin::pirepFiled',
+        'user/created' => 'NotifyPlugin::userApplied',
+        'news/added' => 'NotifyPlugin::newsAdded',
+        'site/updated' => 'NotifyPlugin::siteUpdated',
+        'user/promoted' => 'NotifyPlugin::userPromoted',
+    ];
+
+    private static $is_ready = false;
+
     public static function init()
     {
         // Add to Menu
@@ -19,11 +29,11 @@ class NotifyPlugin
         Router::add('/admin/messages', [new NotifyPluginController, 'post'], 'post');
 
         // Event Subscriptions
-        self::$_listeners['pirep/filed'] = Events::listen('pirep/filed', 'NotifyPlugin::pirepFiled');
-        self::$_listeners['user/created'] = Events::listen('user/created', 'NotifyPlugin::userApplied');
-        self::$_listeners['news/added'] = Events::listen('news/added', 'NotifyPlugin::newsAdded');
-        self::$_listeners['site/updated'] = Events::listen('site/updated', 'NotifyPlugin::siteUpdated');
-        self::$_listeners['user/promoted'] = Events::listen('user/promoted', 'NotifyPlugin::userPromoted');
+        foreach (self::$_handlers as $evName => $callable) {
+            self::$_listeners[$evName] = Events::listen($evName, $callable);
+        }
+
+        self::$is_ready = true;
     }
 
     /**

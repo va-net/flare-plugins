@@ -23,6 +23,7 @@ class NotifyPlugin
         self::$_listeners['user/created'] = Events::listen('user/created', 'NotifyPlugin::userApplied');
         self::$_listeners['news/added'] = Events::listen('news/added', 'NotifyPlugin::newsAdded');
         self::$_listeners['site/updated'] = Events::listen('site/updated', 'NotifyPlugin::siteUpdated');
+        self::$_listeners['user/promoted'] = Events::listen('user/promoted', 'NotifyPlugin::userPromoted');
     }
 
     /**
@@ -32,10 +33,17 @@ class NotifyPlugin
     public static function pirepFiled($event)
     {
         $params = $event->params;
+        $aircraft = Aircraft::fetch($params['aircraftid']);
+        $pilot = (new User)->getUser($params['pilotid']);
+
         $msg = "**New PIREP Filed**\r\n";
+        $msg .= "> Pilot: {$pilot->name} ({$pilot->callsign})\r\n";
+        $msg .= "> Aircraft: {$aircraft->name} ({$aircraft->liveryname})\r\n";
         $msg .= "> Route: {$params['departure']}-{$params['arrival']}\r\n";
         $msg .= "> Flight Time: " . Time::secsToString($params['flighttime']) . "\r\n";
-        $msg .= "> Flight Number: {$params['flightnum']}";
+        $msg .= "> Flight Number: {$params['flightnum']}\r\n";
+        $msg .= "> Fuel Used: {$params['fuelused']}kg";
+
         self::postMsg($msg);
     }
 
@@ -75,10 +83,23 @@ class NotifyPlugin
 
     /**
      * @return null
+     * @param Event $event
+     */
+    public static function userPromoted($event)
+    {
+        $params = $event->params;
+        $pilot = (new User)->getUser($params['pilot']);
+        $rank = Rank::find($params['rank']);
+        $msg = "**{$pilot->name} has been promoted to {$rank->name}!**";
+        self::postMsg($msg);
+    }
+
+    /**
+     * @return null
      * @param string $message Message
      * @param string $isPrivate Whether to send to the Internal Memo Channel
      */
-    private static function postMsg($message, $isPrivate = false)
+    public static function postMsg($message, $isPrivate = false)
     {
         // Configure Webhook URL & Payload
         $url = '';
@@ -87,6 +108,7 @@ class NotifyPlugin
         ];
         if (!empty(Config::get('DISCORD_WEBHOOK'))) {
             $url = trim(Config::get('DISCORD_WEBHOOK'), '/') . '/slack';
+            $url = str_replace('/slack/slack', '/slack', $url);
             if ($isPrivate) {
                 $url = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/') . '/slack';
             }
@@ -118,8 +140,8 @@ class NotifyPlugin
     {
         $ret = [];
         if (!empty(Config::get('DISCORD_WEBHOOK'))) {
-            $pub = trim(Config::get('DISCORD_WEBHOOK'), '/') . '/slack';
-            $prv = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/') . '/slack';
+            $pub = Config::get('DISCORD_WEBHOOK');
+            $prv = Config::get('DISCORD_WEBHOOK_PRIVATE');
             $ret = ['Discord', $pub, $prv];
         } elseif (!empty(Config::get('SLACK_WEBHOOK'))) {
             $pub = Config::get('SLACK_WEBHOOK');

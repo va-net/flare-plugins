@@ -29,6 +29,9 @@ class NotifyPluginController extends Controller
                 Config::replace('DISCORD_WEBHOOK_PRIVATE', '');
             }
 
+            NotifyPlugin::postMsg('Channel Configured as Public Webhook Channel for Flare');
+            NotifyPlugin::postMsg('Channel Configured as Private Webhook Channel for Flare', true);
+
             Session::flash('success', 'Settings Saved');
         }
 

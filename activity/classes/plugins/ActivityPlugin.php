@@ -176,6 +176,10 @@ class ActivityPlugin
         self::setup();
 
         $ret = self::$_db->insert('leave_absence', $fields);
+        if (class_exists('NotifyPlugin')) {
+            $pilot = (new User)->getUser($fields['pilotid']);
+            NotifyPlugin::postMsg("Pilot {$pilot->name} has requested leave from {$fields['fromdate']} to {$fields['todate']}", true);
+        }
 
         return !($ret->error());
     }

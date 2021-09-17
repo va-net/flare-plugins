@@ -180,6 +180,10 @@ class HubsPlugin
         self::setup();
 
         $res = self::$_db->insert('hub_changes', $fields);
+        if (class_exists('NotifyPlugin')) {
+            $pilot = (new User)->getUser($fields['pilotId']);
+            NotifyPlugin::postMsg("{$pilot->name} has requested a hub change to {$fields['after']}", true);
+        }
         return !($res->error());
     }
 

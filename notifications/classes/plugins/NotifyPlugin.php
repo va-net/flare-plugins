@@ -120,7 +120,8 @@ class NotifyPlugin
             $url = trim(Config::get('DISCORD_WEBHOOK'), '/') . '/slack';
             $url = str_replace('/slack/slack', '/slack', $url);
             if ($isPrivate) {
-                $url = trim(Config::get('DISCORD_WEBHOOK_PRIVATE'), '/') . '/slack';
+                $url = Config::get('DISCORD_WEBHOOK_PRIVATE') . '/slack';
+                $url = str_replace('/slack/slack', '/slack', $url);
             }
         } elseif (!empty(Config::get('SLACK_WEBHOOK'))) {
             $url = Config::get('SLACK_WEBHOOK');

@@ -17,7 +17,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <input id="todate" name="todate" type="date" min="<?= date('Y-m-d') ?>" required class="form-control" />
             </div>
             <div class="space-y-1">
-                <label for="reason">Flight Number</label>
+                <label for="reason">Reason for Leave</label>
                 <input id="reason" name="reason" type="text" required class="form-control" />
             </div>
         </form>

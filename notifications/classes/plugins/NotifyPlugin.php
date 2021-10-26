@@ -99,8 +99,7 @@ class NotifyPlugin
     {
         $params = $event->params;
         $pilot = (new User)->getUser($params['pilot']);
-        $rank = Rank::find($params['rank']);
-        $msg = "**{$pilot->name} has been promoted to {$rank->name}!**";
+        $msg = "**{$pilot->name} has been promoted to {$params['rank']->name}!**";
         self::postMsg($msg);
     }
 

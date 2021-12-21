@@ -89,8 +89,8 @@ class ActivityPlugin
         self::setup();
         $activePeriod = self::$_activePeriod;
 
-        $sql = 'SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
-                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())';
+        $sql = "SELECT * FROM pilots WHERE id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
+                AND status=1 AND NOT id IN (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();
@@ -122,9 +122,9 @@ class ActivityPlugin
         $activePeriod = self::$_activePeriod;
         $newPeriod = self::$_newPeriod;
 
-        $sql = 'SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
+        $sql = "SELECT * FROM pilots WHERE NOT id IN (SELECT pilotid FROM pireps WHERE DATEDIFF(NOW(), date) <= {$activePeriod} AND status=1) 
                 AND status=1 AND DATEDIFF(NOW(), joined) <= {$newPeriod} AND NOT id IN 
-                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())';
+                (SELECT pilotid FROM leave_absence WHERE status=1 AND fromdate >= NOW() AND todate <= NOW())";
         $data = self::$_db->query($sql);
 
         return $data->results();

@@ -83,7 +83,7 @@ $ACTIVE_CATEGORY = 'user-management';
                                 }
                                 foreach (Page::$pageData->pilots->retired as $r) {
                                     echo '<tr><td class="align-middle">';
-                                    echo '<span class="badge badge-success">Active</span>';
+                                    echo '<span class="badge badge-secondary">Retired</span>';
                                     echo '</td><td class="align-middle">';
                                     echo $r->name;
                                     echo '</td><td class="align-middle">';

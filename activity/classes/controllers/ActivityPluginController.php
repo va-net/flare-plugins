@@ -15,6 +15,7 @@ class ActivityPluginController extends Controller
         $data->pilots->retired = ActivityPlugin::retiredPilots();
         $data->pilots->leave = ActivityPlugin::pilotsOnLeave();
 
+        $data->active_dropdown = 'user-management';
         $this->render('admin/plugin_activity', $data);
     }
 
@@ -47,6 +48,7 @@ class ActivityPluginController extends Controller
         $data->pending_leave = ActivityPlugin::pendingReqs();
         $data->approved_leave = ActivityPlugin::currentFutureLeave();
 
+        $data->active_dropdown = 'user-management';
         $this->render('admin/plugin_activity_leave', $data);
     }
 
@@ -83,6 +85,7 @@ class ActivityPluginController extends Controller
         $data->active_days = Config::get('ACTIVE_DAYS');
         $data->new_days = Config::get('NEW_DAYS');
 
+        $data->active_dropdown = 'plugins';
         $this->render('admin/plugin_activity_settings', $data);
     }
 
